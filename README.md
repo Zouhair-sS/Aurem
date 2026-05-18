@@ -27,21 +27,19 @@
 ## 📸 Preview
 
 <p align="center">
-  <strong>🎬 Full Demo Walkthrough</strong>
+  <strong>🎬 Demo Video</strong>
 </p>
 
 <p align="center">
-  <video src="https://github.com/Zouhair-sS/Aurem/raw/main/ressources/Demo%20video.mp4" width="720" controls autoplay muted loop>
-    Your browser does not support the video tag.
-  </video>
+  <a href="https://github.com/Zouhair-sS/Aurem/raw/main/ressources/Demo%20video.mp4">
+    <img src="ressources/dashboard.png" alt="▶ Watch Demo Video" width="700" />
+  </a>
 </p>
 
 <p align="center">
-  <em>👆 Can't see the video? <a href="https://github.com/Zouhair-sS/Aurem/raw/main/ressources/Demo%20video.mp4">Click here to download it</a></em>
-</p>
-
-<p align="center">
-  <img src="ressources/dashboard.png" alt="Aurem Dashboard Preview" width="600" />
+  <a href="https://github.com/Zouhair-sS/Aurem/raw/main/ressources/Demo%20video.mp4">
+    <img src="https://img.shields.io/badge/▶%20Watch%20Full%20Demo-Download%20Video%20(95MB)-c9a84c?style=for-the-badge&logo=youtube&logoColor=white" />
+  </a>
 </p>
 
 ---
