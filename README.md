@@ -1,176 +1,200 @@
-# Aurem — Personal Finance Manager
+<p align="center">
+  <img src="ressources/Logo Aurem.png" alt="Aurem" width="480" />
+</p>
 
-> A full-stack personal finance management platform built with **Vue 3** and **Laravel 12**, designed to help users track income & expenses, set monthly budgets, and visualize spending through interactive reports — all with a modern, responsive UI and a separate admin panel.
+<p align="center">
+  <strong>Personal Finance Manager — Full-Stack Web Application</strong><br/>
+  <em>Track income & expenses · Set smart budgets · Visualize spending with interactive reports</em>
+</p>
 
----
+<p align="center">
+  <img src="https://img.shields.io/badge/Vue.js-3.5-42b883?style=for-the-badge&logo=vuedotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" />
+  <img src="https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
+  <img src="https://img.shields.io/badge/Chart.js-4-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/JWT-Auth-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white" />
+  <img src="https://img.shields.io/badge/MySQL-8-4479A1?style=for-the-badge&logo=mysql&logoColor=white" />
+</p>
 
-## Table of Contents
-
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Running the Application](#running-the-application)
-- [Default Accounts](#default-accounts)
-- [API Endpoints](#api-endpoints)
-- [Screenshots Overview](#screenshots-overview)
-
----
-
-## Features
-
-### User Side
-
-- **Dashboard** — Real-time overview of total balance, monthly income, monthly expenses, savings rate, income vs expenses trend chart (last 6 months), spending by category doughnut chart, recent transactions, and top spending categories.
-- **Transactions** — Add income/expense with live money formatting (e.g. `13 334 000,00 dh`), category selector with floating popover, sortable transaction table, and delete confirmation modals.
-- **Budgets** — Month/year picker to select any period, auto-fetches expenses for the selected month from backend, set limits per category, progress bars (green → amber → red), summary strip showing total budget / spent / remaining, limits saved per-month in localStorage.
-- **Reports** — Monthly trend line chart (income vs expenses over last 6 months), spending breakdown doughnut chart by category with legend and totals.
-- **Categories** — Create, edit, delete custom categories with emoji icons and color pickers. System default categories are synced per user and protected from deletion.
-- **Settings** — Update profile (name, email, password).
-- **Internationalization** — Full French & English support via `vue-i18n`.
-- **Currency** — All amounts displayed in Moroccan Dirham (`dh`) with professional number formatting.
-- **Maintenance Mode** — Users see a maintenance page when the admin enables it.
-
-### Admin Panel (`/admin`)
-
-- **Separate authentication** — Dedicated admin guard with JWT, isolated session from regular users.
-- **Dashboard** — Platform-wide stats: total users, total transactions, total income/expense, monthly user registrations chart, recent activity.
-- **User Management** — Search, view profiles, deactivate/reactivate, or delete users.
-- **Transaction Feed** — Global transaction list across all users, filterable by type (income/expense), category, month, and year with server-side pagination.
-- **Category Management** — Manage system default categories (CRUD) + view and delete user-created custom categories grouped by user.
-- **Audit Log** — Timestamped log of all admin actions (user deactivations, deletions, category changes, etc.).
-- **System Settings** — Toggle maintenance mode, clear application cache.
+<p align="center">
+  <img src="https://img.shields.io/badge/status-completed-brightgreen?style=flat-square" />
+  <img src="https://img.shields.io/badge/license-academic-blue?style=flat-square" />
+  <img src="https://img.shields.io/badge/i18n-FR%20%7C%20EN-orange?style=flat-square" />
+</p>
 
 ---
 
-## Tech Stack
+## 📸 Preview
+
+<p align="center">
+  <img src="ressources/dashboard.png" alt="Aurem Dashboard Preview" width="700" />
+</p>
+
+<p align="center">
+  <img src="frontend/public/mockup_suivi.png" alt="Dashboard" width="260" />
+  <img src="frontend/public/mockup_budgets.png" alt="Budgets" width="260" />
+  <img src="frontend/public/mockup_rapports.png" alt="Reports" width="260" />
+</p>
+
+---
+
+## ✨ Highlights
+
+| What makes Aurem stand out |  |
+|---|---|
+| 🏗️ **Full-Stack Architecture** | Decoupled SPA (Vue 3) + RESTful API (Laravel 12) with JWT authentication |
+| 🎨 **Premium UI/UX** | GSAP scroll animations, glassmorphism effects, responsive design, and custom branding |
+| 👤 **Dual Auth System** | Separate user & admin authentication guards with isolated JWT sessions |
+| 🌍 **Bilingual** | Complete French & English support via `vue-i18n` |
+| 📊 **Interactive Charts** | Doughnut & line charts powered by Chart.js for real-time financial insights |
+| 💰 **Moroccan Dirham** | Professional MAD currency formatting throughout the app |
+| 🛡️ **Admin Panel** | Full platform management — user control, audit logs, maintenance mode |
+
+---
+
+## 🚀 Features
+
+### 👤 User Dashboard
+
+- **Real-time overview** — Balance, monthly income/expenses, savings rate
+- **Trend charts** — Income vs. expenses over the last 6 months (line chart)
+- **Spending breakdown** — Category-based doughnut chart with interactive legend
+- **Recent transactions** — Quick access to latest financial activity
+
+### 💸 Transaction Management
+
+- Add income & expenses with **live money formatting** (e.g. `13 334 000,00 MAD`)
+- **Floating category selector** with emoji icons and color coding
+- Sortable transaction table with delete confirmation modals
+
+### 🎯 Smart Budgets
+
+- Month/year picker for any period
+- Auto-fetch expenses from backend for selected month
+- **Color-coded progress bars** — green → amber → red based on spending
+- Summary strip: total budget / spent / remaining
+
+### 📈 Visual Reports
+
+- 6-month trend line chart (income vs. expenses)
+- Category spending breakdown with totals
+- Filterable by period
+
+### 🏷️ Custom Categories
+
+- Create, edit, delete categories with emoji icons + color pickers
+- System defaults synced per user and protected from deletion
+
+### ⚙️ Settings & i18n
+
+- Profile management (name, email, password)
+- Full **French / English** toggle
+
+---
+
+### 🔐 Admin Panel (`/admin`)
+
+| Feature | Description |
+|---|---|
+| **Dashboard** | Platform-wide stats: total users, transactions, income/expense, registration trends |
+| **User Management** | Search, view profiles, deactivate/reactivate, or delete accounts |
+| **Transaction Feed** | Global feed with filters (type, category, month, year) + server-side pagination |
+| **Category Management** | System default categories (CRUD) + user custom categories grouped by user |
+| **Audit Log** | Timestamped record of all admin actions |
+| **System Settings** | Maintenance mode toggle, application cache clearing |
+
+---
+
+## 🛠️ Tech Stack
 
 ### Frontend
 
-| Technology       | Version | Purpose                          |
-| ---------------- | ------- | -------------------------------- |
-| Vue.js           | 3.5     | Composition API with `<script setup>` |
-| Vite             | 8.x     | Build tool & dev server          |
-| Vue Router       | 5.x     | Client-side routing with guards  |
-| vue-i18n         | 11.x    | Internationalization (FR / EN)   |
-| Chart.js         | 4.x     | Charts (doughnut, line)          |
-| vue-chartjs      | 5.x     | Vue 3 wrapper for Chart.js       |
-| Axios            | 1.x     | HTTP client for API calls        |
+| Technology | Version | Role |
+|:---|:---:|:---|
+| <img src="https://img.shields.io/badge/-Vue.js-42b883?logo=vuedotjs&logoColor=white&style=flat-square" /> | `3.5` | Composition API with `<script setup>` |
+| <img src="https://img.shields.io/badge/-Vite-646CFF?logo=vite&logoColor=white&style=flat-square" /> | `8.x` | Build tool & dev server |
+| <img src="https://img.shields.io/badge/-Vue%20Router-42b883?logo=vuedotjs&logoColor=white&style=flat-square" /> | `5.x` | Client-side routing with navigation guards |
+| <img src="https://img.shields.io/badge/-vue--i18n-42b883?logo=vuedotjs&logoColor=white&style=flat-square" /> | `11.x` | Internationalization (FR / EN) |
+| <img src="https://img.shields.io/badge/-Chart.js-FF6384?logo=chartdotjs&logoColor=white&style=flat-square" /> | `4.x` | Interactive charts (doughnut, line) |
+| <img src="https://img.shields.io/badge/-Axios-5A29E4?logo=axios&logoColor=white&style=flat-square" /> | `1.x` | HTTP client with JWT interceptor |
 
 ### Backend
 
-| Technology       | Version | Purpose                          |
-| ---------------- | ------- | -------------------------------- |
-| PHP              | 8.2+    | Runtime                          |
-| Laravel          | 12.x    | Web framework                    |
-| tymon/jwt-auth   | latest  | JWT authentication (user + admin)|
-| MySQL / SQLite   | —       | Database                         |
+| Technology | Version | Role |
+|:---|:---:|:---|
+| <img src="https://img.shields.io/badge/-PHP-777BB4?logo=php&logoColor=white&style=flat-square" /> | `8.2+` | Runtime |
+| <img src="https://img.shields.io/badge/-Laravel-FF2D20?logo=laravel&logoColor=white&style=flat-square" /> | `12.x` | RESTful API framework |
+| <img src="https://img.shields.io/badge/-JWT-000000?logo=jsonwebtokens&logoColor=white&style=flat-square" /> | `latest` | Dual authentication (user + admin) |
+| <img src="https://img.shields.io/badge/-MySQL-4479A1?logo=mysql&logoColor=white&style=flat-square" /> | `8.x` | Relational database |
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```
-PROJET RECHERCHE SCI/
-├── backend/                          # Laravel 12 API
+Aurem/
+├── 📁 backend/                        # Laravel 12 RESTful API
 │   ├── app/
-│   │   ├── Http/
-│   │   │   ├── Controllers/Api/
-│   │   │   │   ├── AuthController.php          # User register, login, logout, profile
-│   │   │   │   ├── AdminAuthController.php     # Admin login/logout
-│   │   │   │   ├── AdminController.php         # Admin dashboard, users, transactions, categories, logs, settings
-│   │   │   │   ├── CategoryController.php      # User CRUD categories
-│   │   │   │   ├── DashboardController.php     # User dashboard aggregation
-│   │   │   │   ├── ExpenseController.php       # Expense CRUD + month/year filtering
-│   │   │   │   └── IncomeController.php        # Income CRUD
-│   │   │   └── Middleware/
-│   │   │       └── CheckMaintenanceMode.php    # Blocks user requests when maintenance is on
-│   │   └── Models/
-│   │       ├── Admin.php
-│   │       ├── AdminLog.php
-│   │       ├── Category.php
-│   │       ├── Expense.php
-│   │       ├── Income.php
-│   │       ├── SystemSetting.php
-│   │       └── User.php
+│   │   ├── Http/Controllers/Api/
+│   │   │   ├── AuthController         # Register, login, logout, profile
+│   │   │   ├── AdminAuthController    # Admin JWT auth (separate guard)
+│   │   │   ├── AdminController        # Dashboard, users, transactions, logs, settings
+│   │   │   ├── CategoryController     # User CRUD categories
+│   │   │   ├── DashboardController    # Aggregated user stats
+│   │   │   ├── ExpenseController      # Expense CRUD + month/year filtering
+│   │   │   └── IncomeController       # Income CRUD
+│   │   ├── Middleware/
+│   │   │   └── CheckMaintenanceMode   # Blocks user requests during maintenance
+│   │   └── Models/                    # User, Admin, Category, Income, Expense, etc.
 │   ├── database/
-│   │   ├── migrations/                         # 12 migration files
-│   │   └── seeders/
-│   │       ├── DatabaseSeeder.php
-│   │       ├── SystemDefaultCategoriesSeeder.php
-│   │       └── DemoSeeder.php
+│   │   ├── migrations/                # 12 migration files
+│   │   └── seeders/                   # Default categories, demo data
 │   └── routes/
-│       └── api.php                             # All API routes
+│       └── api.php                    # All API route definitions
 │
-├── frontend/                         # Vue 3 SPA
+├── 📁 frontend/                       # Vue 3 Single Page Application
 │   ├── src/
 │   │   ├── views/
-│   │   │   ├── LandingView.vue                 # Public landing page
-│   │   │   ├── LoginView.vue                   # User login
-│   │   │   ├── RegisterView.vue                # User registration
-│   │   │   ├── DashboardView.vue               # User dashboard
-│   │   │   ├── TransactionsView.vue            # Add & view transactions
-│   │   │   ├── BudgetsView.vue                 # Monthly budget planner
-│   │   │   ├── ReportsView.vue                 # Financial reports & charts
-│   │   │   ├── SettingsView.vue                # Profile settings
-│   │   │   ├── MaintenanceView.vue             # Maintenance screen
-│   │   │   └── admin/
-│   │   │       ├── AdminLoginView.vue
-│   │   │       ├── AdminLayout.vue             # Admin sidebar layout
-│   │   │       ├── AdminDashboardView.vue
-│   │   │       ├── AdminUsersView.vue
-│   │   │       ├── AdminTransactionsView.vue
-│   │   │       ├── AdminCategoriesView.vue
-│   │   │       ├── AdminAuditView.vue
-│   │   │       └── AdminSettingsView.vue
+│   │   │   ├── LandingView            # Animated public landing page
+│   │   │   ├── DashboardView          # User financial dashboard
+│   │   │   ├── TransactionsView       # Income & expense management
+│   │   │   ├── BudgetsView            # Monthly budget planner
+│   │   │   ├── ReportsView            # Charts & financial reports
+│   │   │   ├── SettingsView           # Profile settings
+│   │   │   └── admin/                 # 7 admin views (dashboard, users, etc.)
 │   │   ├── components/
-│   │   │   └── AppLayout.vue                   # Authenticated user layout (sidebar)
-│   │   ├── router/
-│   │   │   └── index.js                        # Route definitions & navigation guards
-│   │   ├── services/
-│   │   │   └── api.js                          # Axios instance with JWT interceptor
-│   │   ├── i18n/
-│   │   │   └── index.js                        # French & English translations
-│   │   ├── style.css                           # Global styles
-│   │   └── main.js                             # App entry point
+│   │   │   └── AppLayout              # Authenticated sidebar layout
+│   │   ├── router/                    # Routes + navigation guards
+│   │   ├── services/                  # Axios instance + JWT interceptor
+│   │   ├── i18n/                      # FR & EN translation files
+│   │   └── style.css                  # Global design system
 │   └── package.json
 │
-└── README.md
+├── 📁 ressources/                     # Design assets & mockups
+└── 📄 README.md
 ```
 
 ---
 
-## Prerequisites
+## ⚡ Quick Start
 
-- **PHP** >= 8.2
-- **Composer** >= 2.x
-- **Node.js** >= 18.x
-- **npm** >= 9.x
-- **MySQL** 8.x (or SQLite for local development)
+### Prerequisites
 
----
+- **PHP** ≥ 8.2 &nbsp;·&nbsp; **Composer** ≥ 2.x &nbsp;·&nbsp; **Node.js** ≥ 18.x &nbsp;·&nbsp; **MySQL** 8.x
 
-## Installation
-
-### 1. Clone the repository
+### 1️⃣ Clone & Setup Backend
 
 ```bash
-git clone <repository-url>
-cd "PROJET RECHERCHE SCI"
-```
+git clone https://github.com/Zouhair-sS/Aurem.git
+cd Aurem/backend
 
-### 2. Backend setup
-
-```bash
-cd backend
 composer install
 cp .env.example .env
 php artisan key:generate
 php artisan jwt:secret
 ```
 
-Configure your `.env` file with your database credentials:
+Configure `.env` with your database credentials:
 
 ```env
 DB_CONNECTION=mysql
@@ -180,138 +204,149 @@ DB_DATABASE=aurem
 DB_USERNAME=root
 DB_PASSWORD=
 
-# Admin credentials (add these)
 ADMIN_NAME=Admin
 ADMIN_EMAIL=admin@aurem.com
 ADMIN_PASSWORD=password
 ```
-
-Run migrations and seeders:
 
 ```bash
 php artisan migrate
 php artisan db:seed
 ```
 
-### 3. Frontend setup
+### 2️⃣ Setup Frontend
 
 ```bash
-cd frontend
+cd ../frontend
 npm install
 ```
 
----
-
-## Running the Application
-
-### Option A — Separate terminals
-
-**Terminal 1 — Backend:**
-```bash
-cd backend
-php artisan serve
-```
-Backend runs at `http://localhost:8000`
-
-**Terminal 2 — Frontend:**
-```bash
-cd frontend
-npm run dev
-```
-Frontend runs at `http://localhost:5173`
-
-### Option B — Using the composer dev script
+### 3️⃣ Run
 
 ```bash
-cd backend
-composer dev
+# Terminal 1 — Backend
+cd backend && php artisan serve          # → http://localhost:8000
+
+# Terminal 2 — Frontend
+cd frontend && npm run dev               # → http://localhost:5173
 ```
-This starts the Laravel server, queue worker, log viewer, and Vite dev server concurrently.
 
 ---
 
-## Default Accounts
+## 🔑 Default Accounts
 
-| Role  | Email               | Password   |
-| ----- | ------------------- | ---------- |
-| User  | test@example.com    | password   |
-| Admin | admin@aurem.com     | password   |
+| Role | Email | Password |
+|:---:|:---|:---|
+| 👤 **User** | `test@example.com` | `password` |
+| 🔐 **Admin** | `admin@aurem.com` | `password` |
 
 > Admin login is available at `/admin/login`
 
 ---
 
-## API Endpoints
+## 🌐 API Reference
 
-### Authentication (`/api/auth`)
+<details>
+<summary><strong>Authentication</strong> — <code>/api/auth</code></summary>
 
-| Method | Endpoint          | Description            |
-| ------ | ----------------- | ---------------------- |
-| POST   | `/auth/register`  | Register a new user    |
-| POST   | `/auth/login`     | Login & get JWT token  |
-| POST   | `/auth/logout`    | Logout (revoke token)  |
-| GET    | `/auth/me`        | Get authenticated user |
-| PUT    | `/auth/profile`   | Update profile         |
+| Method | Endpoint | Description |
+|:---:|:---|:---|
+| `POST` | `/auth/register` | Register a new user |
+| `POST` | `/auth/login` | Login & receive JWT |
+| `POST` | `/auth/logout` | Revoke token |
+| `GET` | `/auth/me` | Current user profile |
+| `PUT` | `/auth/profile` | Update profile |
 
-### User Resources (`/api`)
+</details>
 
-| Method   | Endpoint                | Description                            |
-| -------- | ----------------------- | -------------------------------------- |
-| GET      | `/dashboard`            | Dashboard stats & charts               |
-| GET      | `/categories`           | List user categories                   |
-| POST     | `/categories`           | Create category                        |
-| PATCH    | `/categories/{id}`      | Update category                        |
-| DELETE   | `/categories/{id}`      | Delete category                        |
-| GET      | `/expenses`             | List expenses (supports `?month=&year=`) |
-| POST     | `/expenses`             | Create expense                         |
-| DELETE   | `/expenses/{id}`        | Delete expense                         |
-| GET      | `/incomes`              | List incomes                           |
-| POST     | `/incomes`              | Create income                          |
-| DELETE   | `/incomes/{id}`         | Delete income                          |
+<details>
+<summary><strong>User Resources</strong> — <code>/api</code></summary>
 
-### Admin (`/api/admin`)
+| Method | Endpoint | Description |
+|:---:|:---|:---|
+| `GET` | `/dashboard` | Dashboard stats & charts |
+| `GET/POST` | `/categories` | List / create categories |
+| `PATCH/DELETE` | `/categories/{id}` | Update / delete category |
+| `GET/POST` | `/expenses` | List (filterable) / create expenses |
+| `DELETE` | `/expenses/{id}` | Delete expense |
+| `GET/POST` | `/incomes` | List / create incomes |
+| `DELETE` | `/incomes/{id}` | Delete income |
 
-| Method   | Endpoint                          | Description                          |
-| -------- | --------------------------------- | ------------------------------------ |
-| POST     | `/admin/login`                    | Admin login                          |
-| POST     | `/admin/logout`                   | Admin logout                         |
-| GET      | `/admin/me`                       | Get admin profile                    |
-| GET      | `/admin/dashboard`                | Platform-wide stats                  |
-| GET      | `/admin/users`                    | List all users (with search)         |
-| GET      | `/admin/users/{id}`               | View user profile                    |
-| PATCH    | `/admin/users/{id}/deactivate`    | Deactivate user                      |
-| PATCH    | `/admin/users/{id}/reactivate`    | Reactivate user                      |
-| DELETE   | `/admin/users/{id}`               | Delete user                          |
-| GET      | `/admin/transactions`             | Global feed (`?type=&category=&month=&year=`) |
-| GET      | `/admin/categories`               | System default categories            |
-| POST     | `/admin/categories`               | Create system category               |
-| PATCH    | `/admin/categories/{id}`          | Update system category               |
-| DELETE   | `/admin/categories/{id}`          | Delete system category               |
-| GET      | `/admin/user-categories`          | User-created categories              |
-| DELETE   | `/admin/user-categories/{id}`     | Delete user category                 |
-| GET      | `/admin/logs`                     | Audit log                            |
-| GET      | `/admin/settings`                 | Get system settings                  |
-| PATCH    | `/admin/settings`                 | Update settings (maintenance mode)   |
-| POST     | `/admin/settings/clear-cache`     | Clear application cache              |
+</details>
 
----
+<details>
+<summary><strong>Admin Panel</strong> — <code>/api/admin</code></summary>
 
-## Screenshots Overview
+| Method | Endpoint | Description |
+|:---:|:---|:---|
+| `POST` | `/admin/login` | Admin login |
+| `POST` | `/admin/logout` | Admin logout |
+| `GET` | `/admin/me` | Admin profile |
+| `GET` | `/admin/dashboard` | Platform-wide stats |
+| `GET` | `/admin/users` | List users (with search) |
+| `GET` | `/admin/users/{id}` | View user details |
+| `PATCH` | `/admin/users/{id}/deactivate` | Deactivate user |
+| `PATCH` | `/admin/users/{id}/reactivate` | Reactivate user |
+| `DELETE` | `/admin/users/{id}` | Delete user |
+| `GET` | `/admin/transactions` | Global feed with filters |
+| `GET/POST` | `/admin/categories` | System categories CRUD |
+| `PATCH/DELETE` | `/admin/categories/{id}` | Update / delete system category |
+| `GET` | `/admin/user-categories` | User-created categories |
+| `DELETE` | `/admin/user-categories/{id}` | Delete user category |
+| `GET` | `/admin/logs` | Audit log |
+| `GET/PATCH` | `/admin/settings` | System settings |
+| `POST` | `/admin/settings/clear-cache` | Clear app cache |
 
-| Page                  | Description                                                    |
-| --------------------- | -------------------------------------------------------------- |
-| Landing               | Public marketing page with feature showcase and tech stack     |
-| Dashboard             | Balance cards, income vs expense trend, category doughnut      |
-| Transactions          | Add form with live money formatting, sortable history table    |
-| Budgets               | Month picker, per-category limits, progress bars, summary bar  |
-| Reports               | 6-month trend line chart, category spending breakdown          |
-| Admin Dashboard       | Platform stats, user registrations chart                       |
-| Admin Transactions    | Global feed with type/category/month/year filters, pagination  |
-| Admin Users           | User list with search, profile modal, activate/deactivate      |
-| Admin Categories      | System defaults + user custom categories management            |
+</details>
 
 ---
 
-## License
+## 🏗️ Architecture
 
-This project is developed as an academic mini-project (Projet de Recherche Scientifique).
+```mermaid
+graph LR
+    A[Vue 3 SPA] -->|Axios + JWT| B[Laravel 12 API]
+    B -->|Eloquent ORM| C[(MySQL)]
+    B -->|JWT Guard| D[User Auth]
+    B -->|Admin Guard| E[Admin Auth]
+    A -->|Chart.js| F[Interactive Charts]
+    A -->|vue-i18n| G[FR / EN]
+    A -->|GSAP| H[Scroll Animations]
+```
+
+---
+
+## 🧠 Key Technical Decisions
+
+| Decision | Rationale |
+|---|---|
+| **Separate JWT guards** | User and admin sessions are fully isolated — compromising one doesn't affect the other |
+| **Composition API (`<script setup>`)** | Cleaner, more concise component logic with better TypeScript readiness |
+| **GSAP + ScrollTrigger** | Scroll-driven animations on the landing page for a premium, recruiter-worthy first impression |
+| **IntersectionObserver for video** | Demo video auto-plays when scrolled into view — no wasted bandwidth |
+| **localStorage for budgets** | Budget limits are client-side per month, keeping the backend stateless for budget config |
+| **System vs. user categories** | Seedable defaults + full user customization without data conflicts |
+
+---
+
+## 👥 Team
+
+| Member | Role |
+|---|---|
+| **Zouhair** | Full-Stack Developer |
+
+> 🎓 Academic project — **EMSI Casablanca** · IIR · 3rd Year · 2025/2026
+
+---
+
+## 📄 License
+
+This project was developed as a **Projet de Recherche Scientifique** (Scientific Research Project) at EMSI Casablanca. It is intended for academic and portfolio purposes.
+
+---
+
+<p align="center">
+  <img src="ressources/Aurem logo 1.png" alt="Aurem" width="40" />
+  <br/>
+  <sub><strong>Aurem</strong> — Manage better. Live more.</sub>
+</p>
