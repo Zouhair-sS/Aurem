@@ -27,13 +27,21 @@
 ## 📸 Preview
 
 <p align="center">
-  <img src="ressources/dashboard.png" alt="Aurem Dashboard Preview" width="700" />
+  <strong>🎬 Full Demo Walkthrough</strong>
 </p>
 
 <p align="center">
-  <img src="frontend/public/mockup_suivi.png" alt="Dashboard" width="260" />
-  <img src="frontend/public/mockup_budgets.png" alt="Budgets" width="260" />
-  <img src="frontend/public/mockup_rapports.png" alt="Reports" width="260" />
+  <video src="https://github.com/Zouhair-sS/Aurem/raw/main/ressources/Demo%20video.mp4" width="720" controls autoplay muted loop>
+    Your browser does not support the video tag.
+  </video>
+</p>
+
+<p align="center">
+  <em>👆 Can't see the video? <a href="https://github.com/Zouhair-sS/Aurem/raw/main/ressources/Demo%20video.mp4">Click here to download it</a></em>
+</p>
+
+<p align="center">
+  <img src="ressources/dashboard.png" alt="Aurem Dashboard Preview" width="600" />
 </p>
 
 ---
