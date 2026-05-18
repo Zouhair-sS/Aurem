@@ -1,0 +1,274 @@
+<script setup>
+import { computed, onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { Chart as ChartJS, ArcElement, LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend, Filler } from 'chart.js'
+import { Doughnut, Line } from 'vue-chartjs'
+import api from '../services/api'
+
+ChartJS.register(ArcElement, LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend, Filler)
+
+const { t, locale } = useI18n()
+const dashboard = ref(null)
+
+const currency = (value) => {
+  const num = Number(value ?? 0)
+  return `${new Intl.NumberFormat('fr-MA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(num)} dh`
+}
+
+const loadAll = async () => {
+  const { data } = await api.get('/dashboard')
+  dashboard.value = data
+}
+
+const formatMonth = (monthValue) => {
+  const date = new Date(`${monthValue}-01T00:00:00`)
+  return date.toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', { month: 'short' })
+}
+
+const lineData = computed(() => {
+  const income = dashboard.value?.monthly_income ?? []
+  const expenses = dashboard.value?.monthly_expenses ?? []
+  const monthSet = new Set([...income.map((item) => item.month), ...expenses.map((item) => item.month)])
+  const months = Array.from(monthSet).sort()
+  const labels = months.length ? months.map(formatMonth) : [t('noData')]
+
+  return {
+    labels,
+    datasets: [
+      {
+        label: t('income'),
+        data: months.length ? months.map((month) => Number(income.find((item) => item.month === month)?.total ?? 0)) : [0],
+        borderColor: '#10b981',
+        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        fill: true,
+        tension: 0.4,
+      },
+      {
+        label: t('expense'),
+        data: months.length ? months.map((month) => Number(expenses.find((item) => item.month === month)?.total ?? 0)) : [0],
+        borderColor: '#f43f5e',
+        backgroundColor: 'rgba(244, 63, 94, 0.1)',
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  }
+})
+
+const lineOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  interaction: { mode: 'index', intersect: false },
+  plugins: { 
+    legend: { display: false },
+    tooltip: {
+      callbacks: {
+        label: (context) => {
+          let label = context.dataset.label || '';
+          if (label) { label += ': '; }
+          if (context.parsed.y !== null) { label += currency(context.parsed.y); }
+          return label;
+        }
+      }
+    }
+  },
+  scales: {
+    y: { beginAtZero: true, ticks: { color: '#9ca3af' }, border: { display: false }, grid: { color: '#f3f4f6' } },
+    x: { ticks: { color: '#9ca3af' }, border: { display: false }, grid: { display: false } },
+  },
+}
+
+const pieData = computed(() => {
+  const categories = dashboard.value?.expense_by_category ?? []
+
+  return {
+    labels: categories.length ? categories.map((item) => item.name) : [t('noData')],
+    datasets: [{
+      data: categories.length ? categories.map((item) => Number(item.total ?? 0)) : [1],
+      backgroundColor: categories.length ? categories.map((item) => item.color) : ['#e5e7eb'],
+      borderWidth: 4,
+      hoverOffset: 4,
+    }],
+  }
+})
+
+const pieOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  cutout: '70%',
+  plugins: {
+    legend: {
+      position: 'bottom',
+      labels: { usePointStyle: true, padding: 20, font: { size: 12, family: 'Inter' } },
+    },
+    tooltip: {
+      callbacks: {
+        label: (context) => {
+          let label = context.label || '';
+          if (label) { label += ': '; }
+          if (context.parsed !== null) { label += currency(context.parsed); }
+          return label;
+        }
+      }
+    }
+  },
+}
+
+const topCategories = computed(() => (dashboard.value?.expense_by_category ?? []).slice(0, 4))
+
+onMounted(loadAll)
+</script>
+
+<template>
+  <div class="dashboard-page">
+    <!-- Skeleton while loading -->
+    <template v-if="!dashboard">
+      <header class="top-bar">
+        <div class="skeleton skeleton-text lg" style="width: 200px;"></div>
+      </header>
+      <section class="kpis">
+        <div class="skeleton skeleton-card" v-for="n in 4" :key="n"></div>
+      </section>
+      <section class="charts-row">
+        <div class="skeleton skeleton-chart"></div>
+        <div class="skeleton skeleton-chart"></div>
+      </section>
+      <section class="bottom-row">
+        <div class="skeleton skeleton-chart" style="min-height: 200px;"></div>
+        <div class="skeleton skeleton-chart" style="min-height: 200px;"></div>
+      </section>
+    </template>
+
+    <!-- Actual content -->
+    <template v-else>
+    <header class="top-bar content-appear">
+      <h1>{{ t('dashboard') }}</h1>
+    </header>
+
+    <section class="kpis content-appear content-appear-delay-1">
+      <article class="kpi-card balance-card">
+        <div class="kpi-icon balance-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+        </div>
+        <div class="kpi-info">
+          <p>{{ t('totalBalance') }}</p>
+          <h3>{{ currency(dashboard.balance ?? 0) }}</h3>
+        </div>
+      </article>
+      <article class="kpi-card income-card">
+        <div class="kpi-icon income-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+        </div>
+        <div class="kpi-info">
+          <p>{{ t('monthlyIncome') }}</p>
+          <h3>{{ currency(dashboard.total_income ?? 0) }}</h3>
+        </div>
+      </article>
+      <article class="kpi-card expense-card">
+        <div class="kpi-icon expense-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 7L7 17M7 17H17M7 17V7"></path></svg>
+        </div>
+        <div class="kpi-info">
+          <p>{{ t('monthlyExpenses') }}</p>
+          <h3>{{ currency(dashboard.total_expense ?? 0) }}</h3>
+        </div>
+      </article>
+      <article class="kpi-card savings-card">
+        <div class="kpi-icon savings-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        </div>
+        <div class="kpi-info">
+          <p>{{ t('savingsRate') }}</p>
+          <h3>{{ Number(dashboard.savings_rate ?? 0).toFixed(1) }}%</h3>
+        </div>
+      </article>
+    </section>
+
+    <section class="charts-row content-appear content-appear-delay-2">
+      <article class="chart-card line-chart">
+        <div class="card-header">
+          <h2>{{ t('incomeVsExpenses') }}</h2>
+        </div>
+        <div class="chart-wrapper">
+          <Line :data="lineData" :options="lineOptions" />
+        </div>
+      </article>
+      <article class="chart-card pie-chart">
+        <div class="card-header">
+          <h2>{{ t('spendingByCategory') }}</h2>
+        </div>
+        <div class="chart-wrapper">
+          <Doughnut :data="pieData" :options="pieOptions" />
+        </div>
+      </article>
+    </section>
+
+    <section class="bottom-row content-appear content-appear-delay-3">
+      <div class="list-card">
+        <div class="card-header">
+          <h2>{{ t('recentTransactions') }}</h2>
+          <router-link to="/transactions">{{ t('viewAll') }}</router-link>
+        </div>
+
+        <ul v-if="dashboard.recent_transactions?.length">
+          <li v-for="item in dashboard.recent_transactions" :key="`${item.type}-${item.id}`">
+            <div class="tx-left">
+              <div class="tx-icon" :class="item.type === 'income' ? 'tx-income' : 'tx-expense'">
+                <svg v-if="item.type === 'income'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 7L7 17M7 17H17M7 17V7"></path></svg>
+              </div>
+              <div class="tx-details">
+                <strong>{{ item.description }}</strong>
+                <span>{{ item.date }}</span>
+              </div>
+            </div>
+            <span :class="item.type === 'income' ? 'income-text' : 'expense-text'">
+              {{ item.type === 'income' ? '+' : '-' }}{{ currency(item.amount) }}
+            </span>
+          </li>
+        </ul>
+        <div v-else class="empty-state">
+          <div class="empty-state-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </div>
+          <p>{{ t('addFirstTransaction') }}</p>
+          <router-link to="/transactions" class="btn-primary">{{ t('addTransaction') }} &rarr;</router-link>
+        </div>
+      </div>
+
+      <div class="budget-card">
+        <div class="card-header">
+          <h2>{{ t('topSpending') }}</h2>
+          <router-link to="/reports">{{ t('viewAll') }}</router-link>
+        </div>
+        <div class="budget-list" v-if="topCategories.length">
+          <div class="budget-item" v-for="item in topCategories" :key="item.name">
+            <div class="budget-info">
+              <span>{{ item.name }}</span>
+              <span>{{ currency(item.total) }}</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress" :style="{ width: `${Math.min((Number(item.total) / Number(topCategories[0].total || 1)) * 100, 100)}%`, background: item.color }"></div>
+            </div>
+          </div>
+        </div>
+        <div v-else class="empty-state">
+          <div class="empty-state-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          </div>
+          <p>{{ t('noData') }}</p>
+          <router-link to="/transactions" class="btn-primary">{{ t('addTransaction') }} &rarr;</router-link>
+        </div>
+      </div>
+    </section>
+    </template>
+  </div>
+</template>
+
+<style scoped>
+.dashboard-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+</style>
