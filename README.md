@@ -27,13 +27,23 @@
 ## 📸 Preview
 
 <p align="center">
-  <strong>🎬 Demo Video</strong>
+  <strong>🏠 Landing Page</strong>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Zouhair-sS/Aurem/raw/main/ressources/Demo%20video.mp4">
-    <img src="ressources/dashboard.png" alt="▶ Watch Demo Video" width="700" />
-  </a>
+  <img src="ressources/landing-preview.png" alt="Aurem Landing Page" width="800" />
+</p>
+
+<p align="center">
+  <strong>📊 Dashboard</strong>
+</p>
+
+<p align="center">
+  <img src="ressources/dashboard-preview.png" alt="Aurem Dashboard" width="800" />
+</p>
+
+<p align="center">
+  <strong>🎬 Demo Video</strong>
 </p>
 
 <p align="center">
